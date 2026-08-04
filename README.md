@@ -90,8 +90,7 @@ runnable.
 
 **The honest summary:** this is *verified infrastructure*. Its value is less in
 the theorems proved - several are near-definitional - than in what becomes
-statable: exploration-augmented agents, the negative results themselves,
-intelligence measures, computability classification. See **Roadmap** below.
+statable on top of it.
 
 ---
 
@@ -121,52 +120,13 @@ Each is documented at length in the file that realises it.
 Read in the order given by the table above; each file's header explains what it
 does and why before any Lean appears. Start with `Setup/Rewards.lean`.
 
-## Roadmap (tentative)
-
-These are directions that occurred to me while building this, not a settled
-plan -- I have not verified any of them against the current literature in
-depth, and some may already be solved, already be known to be false, or be
-harder than I've guessed. Treat this as "things worth someone checking," not
-"things I know are next."
-
-**Solomonoff's convergence theorem** - that the universal mixture's predictions
-converge to the true environment's, with total squared error bounded by
-`K(μ)·ln 2`. `WeightedMixture.weight_mul_le_combine` is exactly the starting
-ingredient. Note this is a *prediction* theorem, so the action-feedback problem
-that defeats agent-level guarantees does not arise: unlike a performance bound
-on AIXI, this one is both true and provable. Highest value.
-
-**Stochastic policies.** Policies currently return an action, not a distribution
-over actions. Costs nothing so far (optimal deterministic policies exist over a
-finite action set) but is needed for multi-agent settings and some exploration
-schemes. Add as a *new* type rather than generalising `Policy`. Easiest entry
-point for a newcomer.
-
-**Exploration agents** - knowledge-seeking (Orseau), BayesExp (Lattimore),
-optimism (Sunehag & Hutter). AIXI is purely greedy and never explores, so a bad
-prior is never corrected. Weak asymptotic optimality is achieved by BayesExp but
-not by AIXI. `Setup/` and `Returns/` are agnostic about what the agent
-maximises, so a new agent means a new action-selection rule and nothing below it
-changes.
-
-**Negative results.** Formalising a Leike–Hutter adversarial-prior construction
-would be genuinely novel rather than definitional - the highest-value direction
-for researchers working on AIXI foundations, and the hardest.
-
-**Legg–Hutter intelligence** and its known pathologies. Most machinery exists.
-
-**Computability classification** - where AIXI sits on the arithmetical hierarchy
-(open: somewhere in `(Δ⁰₁, Δ⁰₄]`), and checking the reported mismatch between
-Leike's `Π⁰₁` for real-valued functions and upper semicomputability.
-
-**Constructing the environment enumeration** - closes the largest gap, but this
-is genuine computability theory and a multi-month project.
-
 ## Contributing
 
-Issues and pull requests welcome -- especially issues. I'd rather find out a
-design decision is wrong from a reader than have it sit uncorrected because it
-looked too polished to question.
+Issues and pull requests welcome, especially issues. If you spot an error, a
+bad definition, a gap in the reasoning, or anywhere this README overstates what
+is actually proved, please say so. I would much rather be corrected than have
+something wrong sit here looking polished.
 
-If you spot an error, a bad definition, a gap in the reasoning, or a claim in
-this README that overstates what's actually proved, please say so.
+If any part of this project overlaps with work you or someone else in the
+community is already doing, please reach out. I want this to add to the
+community's work, not step on it.
