@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+title: "Universal Artificial Intelligence in Lean 4"
+message: "If you use this formalisation, please cite it."
+type: software
+authors:
+  - given-names: Iizalaarab
+    family-names: Elhaimeur
+    affiliation: "Old Dominion University"
+repository-code: "https://github.com/Izzy-Elizzy/uai-lean"
+abstract: >-
+  A machine-checked formalisation of AIXI in Lean 4: the agent-environment
+  interaction protocol, environments as chronological semimeasures, Bellman
+  optimality at finite horizon, the infinite-horizon Bellman fixed-point
+  equation, weighted environment mixtures with domination, and a universal
+  environment weighted by prefix Kolmogorov complexity. Sorry-free.
+keywords:
+  - Lean 4
+  - formal verification
+  - AIXI
+  - algorithmic information theory
+  - agent foundations
+license: Apache-2.0

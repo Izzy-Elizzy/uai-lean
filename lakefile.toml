@@ -1,0 +1,28 @@
+name = "uai"
+version = "0.1.0"
+keywords = ["AIXI", "universal artificial intelligence", "algorithmic information theory"]
+defaultTargets = ["UAI"]
+
+[leanOptions]
+pp.unicode.fun = true
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.32.2"
+
+# Alexey Milovanov's algorithmic information theory library.
+# Supplies: dyadicWeight, tsum_dyadicWeight (for SimpleWeights.lean)
+#           complexityWeight, KP, KP_kraft_sum_le_one (for ComplexityWeights.lean)
+# NOTE: upstream pins Lean v4.32.1. If lake reports a version conflict,
+# either fork and bump the pin, or align this project's toolchain.
+[[require]]
+name = "kolmogorov_complexity"
+git = "https://github.com/AlexeyMilovanov/kolmogorov-complexity-lean"
+rev = "main"
+
+[[lean_lib]]
+name = "UAI"
