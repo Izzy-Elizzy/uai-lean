@@ -1,9 +1,14 @@
 # Universal Artificial Intelligence in Lean 4
 
-A machine-checked formalisation of AIXI — Hutter's theoretical model of a
-maximally intelligent agent — built from first principles.
+A machine-checked formalisation of AIXI - Hutter's theoretical model of a
+maximally intelligent agent - built from first principles.
 
-**Status: In Progress**
+**Status: work in progress, first release.** Every theorem currently in the
+repo is verified by the Lean kernel -- no `sorry`, no axioms, no `admit`, no
+`native_decide` -- but "verified" only means the proofs are correct given the
+definitions. It does not mean the definitions are the right ones, that nothing
+is missing, or that the overall approach is the best one. This is a first pass,
+not a finished artifact, and it should be read and used that way.
 
 Author: Iizalaarab Elhaimeur, Department of Computer Science, Old Dominion
 University.
@@ -27,18 +32,18 @@ A construction of AIXI in five steps, each building on the last:
 
 ## Main results
 
-- **Bellman optimality (bounded horizon)** — `Optimality/FiniteHorizon.lean`.
+- **Bellman optimality (bounded horizon)** - `Optimality/FiniteHorizon.lean`.
   The greedy policy attains the best achievable return, and no policy exceeds
   it.
-- **The Bellman fixed-point equation (unbounded horizon)** —
+- **The Bellman fixed-point equation (unbounded horizon)** -
   `Optimality/InfiniteHorizon.lean`. This is the central theorem: it is what
   makes an infinite-horizon optimal policy definable at all.
-- **A weighted blend of environments is an environment** —
+- **A weighted blend of environments is an environment** -
   `UniversalPrior/Mixtures.lean`, with a domination bound.
-- **The complexity-weighted universal environment** —
+- **The complexity-weighted universal environment** -
   `UniversalPrior/ComplexityWeights.lean`, built on genuine prefix Kolmogorov
   complexity via the Kraft inequality.
-- **AIXI, and that it is stationary** — `Agent/InfiniteHorizon.lean`.
+- **AIXI, and that it is stationary** - `Agent/InfiniteHorizon.lean`.
 
 ## Two things worth knowing
 
@@ -75,7 +80,7 @@ environment.
 **3. That stronger claim is known to fail.** Leike & Hutter, *Bad Universal
 Priors and Notions of Optimality* (COLT 2015), show adversarial choices of
 reference machine make AIXI misbehave drastically, and that no invariance
-theorem is known for AIXI — unlike Kolmogorov complexity, which has one. In the
+theorem is known for AIXI - unlike Kolmogorov complexity, which has one. In the
 finite-lifetime case, for any policy there is a prior making it uniquely
 optimal, which renders such guarantees vacuous.
 
@@ -84,7 +89,7 @@ for AIXI-adjacent objects. This formalisation does not and cannot make AIXI
 runnable.
 
 **The honest summary:** this is *verified infrastructure*. Its value is less in
-the theorems proved — several are near-definitional — than in what becomes
+the theorems proved - several are near-definitional - than in what becomes
 statable: exploration-augmented agents, the negative results themselves,
 intelligence measures, computability classification. See **Roadmap** below.
 
@@ -100,7 +105,7 @@ Each is documented at length in the file that realises it.
 | Chronology enforced **structurally** | `Setup/Environments.lean` | The type never supplies future actions, so the side condition cannot be violated |
 | Policies are **non-stationary** | `Setup/Policies.lean` | Optimal finite-horizon policies genuinely depend on time remaining |
 | Rewards **detachable** from percepts | `Setup/Rewards.lean` | Lets future work generalise to history-level objectives without a rewrite |
-| Bounded rewards as a **hypothesis**, not a type | `Setup/Rewards.lean` | Keeps theorems that do not need it general — and lets the linter reveal which those are |
+| Bounded rewards as a **hypothesis**, not a type | `Setup/Rewards.lean` | Keeps theorems that do not need it general - and lets the linter reveal which those are |
 | Probabilities `ℝ≥0∞`, returns `ℝ` | `Returns/FiniteHorizon.lean` | `ℝ≥0∞` subtraction is truncated and would corrupt return comparisons; `ℝ` infinite sums need convergence conditions everywhere |
 | Mixture weights **abstract** | `UniversalPrior/Mixtures.lean` | Decouples the blend theorem from any complexity API; swapping weights touches one thin file |
 
@@ -116,11 +121,15 @@ Each is documented at length in the file that realises it.
 Read in the order given by the table above; each file's header explains what it
 does and why before any Lean appears. Start with `Setup/Rewards.lean`.
 
-## Roadmap
+## Roadmap (tentative)
 
-Directions this formalisation makes attackable, roughly by tractability.
+These are directions that occurred to me while building this, not a settled
+plan -- I have not verified any of them against the current literature in
+depth, and some may already be solved, already be known to be false, or be
+harder than I've guessed. Treat this as "things worth someone checking," not
+"things I know are next."
 
-**Solomonoff's convergence theorem** — that the universal mixture's predictions
+**Solomonoff's convergence theorem** - that the universal mixture's predictions
 converge to the true environment's, with total squared error bounded by
 `K(μ)·ln 2`. `WeightedMixture.weight_mul_le_combine` is exactly the starting
 ingredient. Note this is a *prediction* theorem, so the action-feedback problem
@@ -133,7 +142,7 @@ finite action set) but is needed for multi-agent settings and some exploration
 schemes. Add as a *new* type rather than generalising `Policy`. Easiest entry
 point for a newcomer.
 
-**Exploration agents** — knowledge-seeking (Orseau), BayesExp (Lattimore),
+**Exploration agents** - knowledge-seeking (Orseau), BayesExp (Lattimore),
 optimism (Sunehag & Hutter). AIXI is purely greedy and never explores, so a bad
 prior is never corrected. Weak asymptotic optimality is achieved by BayesExp but
 not by AIXI. `Setup/` and `Returns/` are agnostic about what the agent
@@ -141,18 +150,23 @@ maximises, so a new agent means a new action-selection rule and nothing below it
 changes.
 
 **Negative results.** Formalising a Leike–Hutter adversarial-prior construction
-would be genuinely novel rather than definitional — the highest-value direction
+would be genuinely novel rather than definitional - the highest-value direction
 for researchers working on AIXI foundations, and the hardest.
 
 **Legg–Hutter intelligence** and its known pathologies. Most machinery exists.
 
-**Computability classification** — where AIXI sits on the arithmetical hierarchy
+**Computability classification** - where AIXI sits on the arithmetical hierarchy
 (open: somewhere in `(Δ⁰₁, Δ⁰₄]`), and checking the reported mismatch between
 Leike's `Π⁰₁` for real-valued functions and upper semicomputability.
 
-**Constructing the environment enumeration** — closes the largest gap, but this
+**Constructing the environment enumeration** - closes the largest gap, but this
 is genuine computability theory and a multi-month project.
 
 ## Contributing
 
-Issues and pull requests welcome.
+Issues and pull requests welcome -- especially issues. I'd rather find out a
+design decision is wrong from a reader than have it sit uncorrected because it
+looked too polished to question.
+
+If you spot an error, a bad definition, a gap in the reasoning, or a claim in
+this README that overstates what's actually proved, please say so.
