@@ -3,8 +3,7 @@
 A machine-checked formalisation of AIXI — Hutter's theoretical model of a
 maximally intelligent agent — built from first principles.
 
-**Status: complete and `sorry`-free.** Every theorem is verified by the Lean
-kernel. No axioms, no `admit`, no `native_decide`.
+**Status: In Progress **
 
 Author: Iizalaarab Elhaimeur, Department of Computer Science, Old Dominion
 University.
